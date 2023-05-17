@@ -4,18 +4,19 @@ const plus = document.getElementById('plus');
 const minus = document.getElementById('minus');
 const number = document.querySelector('span');
 
-let count = 0;
+number.innerHTML = 0;
+const PLUS = 'PLUS';
+const MINUS = 'MINUS';
 
 //2. reducer는 data를 수정할 수 있는 함수
-const countModifier = (state = 0, action) => {
-  if (action.type === 'PLUS') {
-    count = count + 1;
-    return count;
-  } else if (action.type === 'MINUS') {
-    count = count - 1;
-    return count;
-  } else {
-    return;
+const countModifier = (count = 0, action) => {
+  switch (action.type) {
+    case PLUS:
+      return count + 1;
+    case MINUS:
+      return count - 1;
+    default:
+      return count;
   }
 };
 
@@ -25,7 +26,7 @@ const store = legacy_createStore(countModifier);
 /**4. ✅ Subscribe : store 안에 있는 변화 감지
 store.subscribe(func); // store안의 변화를 감지하면 func 실행
 */
-number.innerHTML = 0;
+
 const onChange = () => {
   number.innerHTML = store.getState();
 };
@@ -37,5 +38,5 @@ store.subscribe(onChange);
 // store.dispatch({ type: 'PLUS' });
 // store.dispatch({ type: 'MINUS' });
 // console.log('Result: ',store.getState());
-plus.addEventListener('click', () => store.dispatch({ type: 'PLUS' }));
-minus.addEventListener('click', () => store.dispatch({ type: 'MINUS' }));
+plus.addEventListener('click', () => store.dispatch({ type: PLUS }));
+minus.addEventListener('click', () => store.dispatch({ type: MINUS }));
