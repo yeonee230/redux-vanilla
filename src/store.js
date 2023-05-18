@@ -1,5 +1,5 @@
 import { legacy_createStore } from 'redux';
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer, configureStore } from '@reduxjs/toolkit';
 
 const addTodo = createAction('ADD');
 const deleteTodo = createAction('DELETE');
@@ -43,6 +43,6 @@ export const actionCreators = {
   addTodo,
   deleteTodo,
 };
-const store = legacy_createStore(reducer);
+const store = configureStore(reducer);
 
 export default store;
