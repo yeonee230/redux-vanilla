@@ -1,68 +1,28 @@
-import { legacy_createStore } from 'redux';
-const form = document.querySelector('form');
-const input = document.querySelector('input');
-const ul = document.querySelector('ul');
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './components/App';
+import Detail from './routes/Detail';
+import Home from './routes/Home';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-const ADD = 'ADD';
-const REMOVE = 'REMOVE';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <h1>Not Found!</h1>,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      { path: '/:id', element: <Detail /> },
+    ],
+  },
+]);
 
-/** 
-✅ state는 single source of truth이며, read-only이다
-✅ store을 수정할 수 있는 유일한 방법은 action을 보내는 방법뿐이다.
-✅ state를 mutate하지 말아야한다.
-  ▷ mutating state하는 대신에 new state objects를 리턴해야 한다. */
-
-const reducer = (state = [], action) => { // ✅ 🆁 2. make function reducer (state, action)
-  switch (action.type) {
-    case ADD:
-      return [{ text: action.text, id: action.id }, ...state];
-    case REMOVE:
-      return state.filter((toDo) => toDo.id !== action.id);
-    default:
-      return state;
-  }
-};
-
-const store = legacy_createStore(reducer); // ✅ 🆁 1. createStore
-
-const removeTodo = (id) => {
-  return { type: REMOVE, id };
-};
-const addTodo = (toDo) => {
-  return { type: ADD, text: toDo, id: Date.now() };
-};
-
-const dispatchRemoveTodo = (e) => {
-  const id = parseInt(e.target.parentNode.id); //❗️ html에서 갑수받아올 때는 string 값임을 주의!!
-  store.dispatch(removeTodo(id));
-};
-const dispatchAddTodo = (toDo) => {
-  store.dispatch(addTodo(toDo)); // ✅ 🆁 3. dispatch(action)
-};
-
-const paintTodos = () => {
-  const toDos = store.getState(); //array
-  ul.innerHTML = ''; // 이거 안하면 중복해서 list가 만들어짐
-  toDos.forEach((toDo) => {
-    const li = document.createElement('li');
-    const delBtn = document.createElement('button');
-    delBtn.addEventListener('click', dispatchRemoveTodo);
-    li.id = toDo.id;
-    li.innerText = toDo.text;
-    delBtn.innerText = '🗑️';
-    li.appendChild(delBtn);
-    ul.appendChild(li);
-  });
-};
-
-store.subscribe(paintTodos); // ✅ 🆁 4. subscribe(func)
-
-const handleSubmit = (e) => {
-  e.preventDefault(); //새로고침 막고
-  const toDo = input.value; //input의 값 받아서
-  input.value = ''; //초기화
-  //createTodo(toDo); // 화면에 띄운다.
-  dispatchAddTodo(toDo);
-};
-
-form.addEventListener('submit', handleSubmit);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
