@@ -24,16 +24,8 @@
 |---|
 |* Connecting Store - store 만들고 provider이용해 연결 |
 |* connect ( state, dispatch) <br> ▷ connect()는 return한 것을 해당 component의 prop에 추가해줌|
-|* mapStateToProps (state, ownProps) <br> ▷ 첫번째 argument : Redux store에서 온 state <br> ▷ 두번째 argument(optional) : component의 props  <br> ▷ ❗️getState 같은 기능 <br> * useSelector() : mapStateToProps 대신 권장 <br> ▷  ```const 현재state값 = useSelector(state => state)``` <br> ▷  store에 저장되어 있는현재state값을 바로 가져올 수 있음. 
-|
-
-|* mapDispatchToProps (dispatch, ownProps) <br> ▷ 첫번째 argument : dispatch <br> ▷ 두번째 argument(optional) : component의 props<br> ▷ ❗️ dispatch 같은 기능 <br> *  useDispatch() 
-```
-const dispatch() = useDispatch(); 선언 후, 
-필요한 곳에 바로 사용.
-
-() => dispatch(funcA)
-``` 
+|* mapStateToProps (state, ownProps) <br> ▷ 첫번째 argument : Redux store에서 온 state <br> ▷ 두번째 argument(optional) : component의 props  <br> ▷ ❗️getState 같은 기능 <br> * useSelector() : mapStateToProps 대신 권장 <br> ▷  ``const 현재state값 = useSelector(state => state)`` <br> ▷  store에 저장되어 있는현재state값을 바로 가져올 수 있음. |
+|* mapDispatchToProps (dispatch, ownProps) <br> ▷ 첫번째 argument : dispatch <br> ▷ 두번째 argument(optional) : component의 props<br> ▷ ❗️ dispatch 같은 기능 <br> * useDispatch() <br> ``const dispatch() = useDispatch();`` 선언 후, 필요한 곳에 바로 사용.<br>``() => dispatch(funcA)``|
 
 |❤️ Redux Tookit|
 |---|
