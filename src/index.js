@@ -1,42 +1,43 @@
 import { legacy_createStore } from 'redux';
+const form = document.querySelector('form');
+const input = document.querySelector('input');
+const ul = document.querySelector('ul');
 
-const plus = document.getElementById('plus');
-const minus = document.getElementById('minus');
-const number = document.querySelector('span');
+const ADD = 'ADD';
+const REMOVE = 'REMOVE';
 
-number.innerHTML = 0;
-const PLUS = 'PLUS';
-const MINUS = 'MINUS';
+/** 
+✅ state는 single source of truth이며, read-only이다
+✅ store을 수정할 수 있는 유일한 방법은 action을 보내는 방법뿐이다.
+✅ state를 mutate하지 말아야한다.
+  ▷ mutating state하는 대신에 new state objects를 리턴해야 한다. */
 
-//2. reducer는 data를 수정할 수 있는 함수
-const countModifier = (count = 0, action) => {
+const reducer = (state=[], action) => {
   switch (action.type) {
-    case PLUS:
-      return count + 1;
-    case MINUS:
-      return count - 1;
+    case ADD:
+      return [...state,{text:action.text, id: action.id}];
+    case REMOVE:
+      return state;
     default:
-      return count;
+      return state;
   }
 };
 
-//1.store를 만든다. store는 데이터를 저장하는 곳. reducer를 넣어줘야함.
-const store = legacy_createStore(countModifier);
+const store = legacy_createStore(reducer);
+store.subscribe(() =>{});
 
-/**4. ✅ Subscribe : store 안에 있는 변화 감지
-store.subscribe(func); // store안의 변화를 감지하면 func 실행
-*/
+// const createTodo = (todo) => {
+//   const li = document.createElement('li');
+//   li.innerText = todo;
+//   ul.appendChild(li);
+// };
 
-const onChange = () => {
-  number.innerHTML = store.getState();
+const handleSubmit = (e) => {
+  e.preventDefault(); //새로고침 막고
+  const toDo = input.value; //input의 값 받아서
+  input.value = ''; //초기화
+  //createTodo(toDo); // 화면에 띄운다.
+  store.dispach({type:ADD, text: toDo, id: Date.now()})
 };
-store.subscribe(onChange);
 
-// 3. ✅ Action : redux에서 function을 부를 때 쓰는 두 번째 parameter 혹은 argument으로 reducer와 소통하기 위해
-// ✅ Reducer에게 Action을 보내는 방법 : store.dispatch({key: value});
-// store.dispatch({ type: 'PLUS' });
-// store.dispatch({ type: 'PLUS' });
-// store.dispatch({ type: 'MINUS' });
-// console.log('Result: ',store.getState());
-plus.addEventListener('click', () => store.dispatch({ type: PLUS }));
-minus.addEventListener('click', () => store.dispatch({ type: MINUS }));
+form.addEventListener('submit', handleSubmit);
