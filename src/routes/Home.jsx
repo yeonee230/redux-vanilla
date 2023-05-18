@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import ToDo from '../components/ToDo';
 import { add } from '../store';
 
-
-function Home({ toDos, addToDo }) {
+// function Home({ toDos, addToDo }) {
+export default function Home() {
   const [todo, setTodo] = useState('');
+  
+  const toDos = useSelector(state => state);
+  const dispatch = useDispatch();
 
   function handleSubmit(e) {
     e.preventDefault();
-    addToDo(todo);
+    // addToDo(todo);
+    dispatch(add({ text: todo, id: Date.now() }));
     setTodo('');
   }
   function handleChange(e) {
@@ -39,15 +43,15 @@ function Home({ toDos, addToDo }) {
   );
 }
 
-function mapStateToProps(state) {
-  //store에서 getState하는 함수 // prop를 바꿀 수 있음
-  return { toDos: state };
-}
+// function mapStateToProps(state) {
+//   //store에서 getState하는 함수 // prop를 바꿀 수 있음
+//   return { toDos: state };
+// }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addToDo: (text) => dispatch(add({text, id: Date.now()})),
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     addToDo: (text) => dispatch(add({text, id: Date.now()})),
+//   };
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// export default connect(mapStateToProps, mapDispatchToProps)(Home);
