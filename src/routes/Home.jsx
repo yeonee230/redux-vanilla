@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import ToDo from '../components/ToDo';
+import { actionCreators } from '../store';
 
-function Home({ toDos }) {
+function Home({ toDos, addToDo }) {
   const [todo, setTodo] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
+    addToDo(todo);
     setTodo('');
   }
   function handleChange(e) {
@@ -23,13 +26,27 @@ function Home({ toDos }) {
         />
         <button>Add</button>
       </form>
-      <ul>{JSON.stringify(toDos)}</ul>
+      <ul>
+        {toDos.map((toDo) => (
+          <ToDo
+            {...toDo}
+            key={toDo.id}
+          />
+        ))}
+      </ul>
     </>
   );
 }
 
 function mapStateToProps(state) {
+  //store에서 getState하는 함수 // prop를 바꿀 수 있음
   return { toDos: state };
 }
 
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch) {
+  return {
+    addToDo: (text) => dispatch(actionCreators.addTodo(text)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
