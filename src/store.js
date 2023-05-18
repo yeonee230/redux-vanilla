@@ -1,8 +1,7 @@
-import { legacy_createStore } from 'redux';
-import { createAction, createReducer, configureStore } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-const addTodo = createAction('ADD');
-const deleteTodo = createAction('DELETE');
+// const addTodo = createAction('ADD');
+// const deleteTodo = createAction('DELETE');
 
 /**
 툴킷 사용하지 않았을 때 reducer 코드 
@@ -29,20 +28,33 @@ const reducer = createReducer([], {
 }); 
 */
 
-// bulider 함수 사용! 
-const reducer = createReducer([], (builder) => {
-  builder.addCase(addTodo,(state, action) => {
-    state.push({ text: action.payload.text, id: action.payload.id })
-  })
-  .addCase(deleteTodo, (state, action) => {
-    return state.filter((todo) => todo.id !== action.payload);
-  })
-}); 
+// bulider 함수 사용!
+// const reducer = createReducer([], (builder) => {
+//   builder.addCase(addTodo,(state, action) => {
+//     state.push({ text: action.payload.text, id: action.payload.id })
+//   })
+//   .addCase(deleteTodo, (state, action) => {
+//     return state.filter((todo) => todo.id !== action.payload);
+//   })
+// });
 
-export const actionCreators = {
-  addTodo,
-  deleteTodo,
-};
-const store = configureStore({reducer});
+const toDosSlice = createSlice({
+  name: 'toDosReducer',
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.unshift({ text: action.payload.text, id: action.payload.id });
+    },
+    del: (state, action) => state.filter((todo) => todo.id !== action.payload),
+  },
+});
+
+// export const actionCreators = {
+//   addTodo,
+//   deleteTodo,
+// };
+
+export const { add, del } = toDosSlice.actions;
+const store = configureStore({ reducer: toDosSlice.reducer });
 
 export default store;

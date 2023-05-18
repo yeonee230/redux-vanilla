@@ -32,3 +32,19 @@
 |* createAction('type이름')|
 |* createReducer(초기값, builder 함수)<br>createReducer()에서는 새로운 state를 리턴하거나 state를 mutate 할 수 있음. <br>▷ 뭔가를 리턴할 때는 새로운 state여야만한다. <br> ▷ (builder) => builder.addCase(createAction값,(state, action) =>{ }).addCase(...).addCase(...) ... |
 |* configureStore({reducer}) <br> ▷ createStore() 역할 <br>▷ 더 나은 개발 경험을 위해 store 설정에 몇몇 기본 값을 추가함 |
+|* createSlice() : reducer와 action 만들기를 한번에! 
+    const mySlice = createSlice({
+    name :'이름',
+    initialState: 초기값,
+    reducers: { // reducers 's' 매우 중요!! 
+        funcA : (state,action) =>{},
+        funcB :  (state,action) =>{}
+        }
+    })
+
+```
+export const { funcA, funcB } = mySlice.actions;
+const store = configureStore({ reducer:mySlice.reducer});
+```
+
+})|
