@@ -43,6 +43,6 @@ export const actionCreators = {
   addTodo,
   deleteTodo,
 };
-const store = configureStore(reducer);
+const store = configureStore({reducer});
 
 export default store;
