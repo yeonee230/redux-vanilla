@@ -22,10 +22,10 @@
 
 |❤️ React JS / React Redux|
 |---|
-|* connect Store - store 만들고 provider이용해 연결 |
-|* connect는 argument로 state와 dispatch를 가짐 <br> ▷ connect()는 return한 것을 해당 component의 prop에 추가해줌|
-|* mapStateToProps는 두 종류의 argument와 함께 호출되는 함수 <br> ▷ 첫번째 argument : Redux store에서 온 state <br> ▷ 두번째 argument : component의 props|
-|* |
+|* Connecting Store - store 만들고 provider이용해 연결 |
+|* connect ( state, dispatch) <br> ▷ connect()는 return한 것을 해당 component의 prop에 추가해줌|
+|* mapStateToProps (state, ownProps) <br> ▷ 첫번째 argument : Redux store에서 온 state <br> ▷ 두번째 argument(optional) : component의 props  <br> ▷ ❗️getState 같은 기능|
+|* mapDispatchToProps (dispatch, ownProps) <br> ▷ 첫번째 argument : dispatch <br> ▷ 두번째 argument(optional) : component의 props<br> ▷ ❗️ dispatch 같은 기능 |
 
 |❤️ Redux Tookit|
 |---|
