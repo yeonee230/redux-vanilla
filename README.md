@@ -29,3 +29,4 @@
 
 |❤️ Redux Tookit|
 |---|
+|* createAction('type이름')|
