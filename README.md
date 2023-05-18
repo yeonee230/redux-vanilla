@@ -30,3 +30,4 @@
 |❤️ Redux Tookit|
 |---|
 |* createAction('type이름')|
+|* createReducer(초기값, builder 함수)<br>createReducer()에서는 새로운 state를 리턴하거나 state를 mutate 할 수 있음. <br>▷ 뭔가를 리턴할 때는 새로운 state여야만한다. <br> ▷ (builder) => builder.addCase(createAction값,(state, action) =>{ }).addCase(...).addCase(...) ... |
