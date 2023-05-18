@@ -12,13 +12,12 @@ const REMOVE = 'REMOVE';
 ✅ state를 mutate하지 말아야한다.
   ▷ mutating state하는 대신에 new state objects를 리턴해야 한다. */
 
-const reducer = (state = [], action) => {
-  // ✅ 🆁 2. make function reducer (state, action)
+const reducer = (state = [], action) => { // ✅ 🆁 2. make function reducer (state, action)
   switch (action.type) {
     case ADD:
       return [{ text: action.text, id: action.id }, ...state];
     case REMOVE:
-      return state;
+      return state.filter((toDo) => toDo.id !== action.id);
     default:
       return state;
   }
@@ -33,15 +32,13 @@ const addTodo = (toDo) => {
   return { type: ADD, text: toDo, id: Date.now() };
 };
 
-
 const dispatchRemoveTodo = (e) => {
-  const id = e.target.parentNode.id;
+  const id = parseInt(e.target.parentNode.id); //❗️ html에서 갑수받아올 때는 string 값임을 주의!!
   store.dispatch(removeTodo(id));
 };
 const dispatchAddTodo = (toDo) => {
   store.dispatch(addTodo(toDo)); // ✅ 🆁 3. dispatch(action)
 };
-
 
 const paintTodos = () => {
   const toDos = store.getState(); //array
