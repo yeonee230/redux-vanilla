@@ -12,7 +12,8 @@ const REMOVE = 'REMOVE';
 ✅ state를 mutate하지 말아야한다.
   ▷ mutating state하는 대신에 new state objects를 리턴해야 한다. */
 
-const reducer = (state = [], action) => { // ✅ 🆁 2. make function reducer (state, action)
+const reducer = (state = [], action) => {
+  // ✅ 🆁 2. make function reducer (state, action)
   switch (action.type) {
     case ADD:
       return [{ text: action.text, id: action.id }, ...state];
@@ -25,29 +26,46 @@ const reducer = (state = [], action) => { // ✅ 🆁 2. make function reducer (
 
 const store = legacy_createStore(reducer); // ✅ 🆁 1. createStore
 
+const removeTodo = (id) => {
+  return { type: REMOVE, id };
+};
+const addTodo = (toDo) => {
+  return { type: ADD, text: toDo, id: Date.now() };
+};
+
+
+const dispatchRemoveTodo = (e) => {
+  const id = e.target.parentNode.id;
+  store.dispatch(removeTodo(id));
+};
+const dispatchAddTodo = (toDo) => {
+  store.dispatch(addTodo(toDo)); // ✅ 🆁 3. dispatch(action)
+};
+
+
 const paintTodos = () => {
   const toDos = store.getState(); //array
   ul.innerHTML = ''; // 이거 안하면 중복해서 list가 만들어짐
   toDos.forEach((toDo) => {
     const li = document.createElement('li');
-
+    const delBtn = document.createElement('button');
+    delBtn.addEventListener('click', dispatchRemoveTodo);
     li.id = toDo.id;
     li.innerText = toDo.text;
+    delBtn.innerText = '🗑️';
+    li.appendChild(delBtn);
     ul.appendChild(li);
   });
 };
 
 store.subscribe(paintTodos); // ✅ 🆁 4. subscribe(func)
 
-const addTodo = (toDo) => {
-  store.dispatch({ type: ADD, text: toDo, id: Date.now() }); // ✅ 🆁 3. dispatch(action)
-};
 const handleSubmit = (e) => {
   e.preventDefault(); //새로고침 막고
   const toDo = input.value; //input의 값 받아서
   input.value = ''; //초기화
   //createTodo(toDo); // 화면에 띄운다.
-  addTodo(toDo);
+  dispatchAddTodo(toDo);
 };
 
 form.addEventListener('submit', handleSubmit);
